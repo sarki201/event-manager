@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   HomeIcon,
   CalenderIcon,
@@ -8,9 +8,12 @@ import {
   ChatBubbleIcon,
   DoubleChevronLeftIcon,
   SettingsIcon,
-  AvatarIcon,
+  EventIcon,
+  ReceivingMoneyIcon,
+  CalenderIcon2,
 } from "../assets/Icons";
 import avatar from "../assets/icons/avatar.svg";
+import { useAside, useAsideToggle } from "./AsideContext";
 
 const navElements = [
   {
@@ -24,18 +27,21 @@ const navElements = [
     link: "/",
     isActive: false,
     icon: <CalenderIcon />,
+    icon2: <EventIcon />,
   },
   {
     name: "Speakers",
     link: "/",
     isActive: false,
     icon: <SpeakerIcon />,
+    icon2: <ReceivingMoneyIcon />,
   },
   {
     name: "Reports",
     link: "/",
     isActive: false,
     icon: <ReportsIcon />,
+    icon2: <CalenderIcon2 />,
   },
 ];
 
@@ -59,54 +65,76 @@ const navElements2 = [
     isActive: false,
     icon: <SettingsIcon />,
   },
-  {
-    name: "Collapse",
-    link: "/",
-    isActive: false,
-    icon: <DoubleChevronLeftIcon />,
-  },
 ];
 const NavElementComponent = ({
   name,
   link,
   isActive,
   icon,
-  key,
+  icon2,
+  index,
   notification,
+  isNavElCollapsed,
 }) => {
   return (
-    <li>
-      <li className={navElements.length - key !== 1 && "mb-2"}>
-        <a
-          href={link}
-          className={`flex items-center relative gap-4 p-2 dark:text-select dark:rounded-sm transition-all duration-300 stroke-primaryselect ${
-            isActive
-              ? "text-primary bg-select dark:bg-primary dark:stroke-select stroke-primary"
-              : "text-[#334155] stroke-primaryselect hover:stroke-primary hover:text-primary hover:bg-select hover:dark:stroke-[#FFF] hover:dark:bg-primary"
-          }    `}
-        >
-          {icon}
-          <span className={`text-sm ${isActive ? "" : ""}`}>{name}</span>
-          {notification && (
-            <div className="w-6 h-6 absolute right-2 top-[50%] translate-y-[-50%] rounded-full bg-[#F43F5E] text-[12px] text-[#FFF] flex items-center justify-center">
-              {notification}
-            </div>
-          )}
-        </a>
-      </li>
+    <li className={navElements.length - index !== 1 ? "mb-2" : undefined}>
+      <a
+        href={link}
+        className={`flex items-center relative gap-4 p-2 dark:text-select dark:rounded-sm stroke-primaryselect h-9 ${
+          isNavElCollapsed && "justify-center"
+        } ${
+          isActive
+            ? "text-primary bg-select dark:bg-primary dark:stroke-select stroke-primary"
+            : "text-[#334155] stroke-primaryselect hover:stroke-primary hover:text-primary hover:bg-select hover:dark:stroke-[#FFF] hover:dark:bg-primary hover:dark:text-[#FFF]"
+        }    `}
+      >
+        {icon2 && isNavElCollapsed ? icon2 : icon}
+        {!isNavElCollapsed && <span className="text-sm">{name}</span>}
+
+        {notification && !isNavElCollapsed && (
+          <div className="w-6 h-6 absolute right-2 top-[50%] translate-y-[-50%] rounded-full bg-[#F43F5E] text-[12px] text-[#FFF] flex items-center justify-center">
+            {notification}
+          </div>
+        )}
+      </a>
     </li>
   );
 };
 
-const Aside = () => {
+const Aside = ({ isAsideCollapsed, setIsAsideCollpased }) => {
+  const asideOpen = useAside();
+  const toggleAside = useAsideToggle();
+  const [isNavElCollapsed, setIsNavElCollapsed] = useState(false);
+
+  useEffect(() => {
+    if (!isAsideCollapsed) {
+      setTimeout(() => {
+        setIsNavElCollapsed(isAsideCollapsed);
+      }, [150]);
+    } else {
+      setTimeout(() => {
+        setIsNavElCollapsed(isAsideCollapsed);
+      }, [50]);
+    }
+  }, [isAsideCollapsed]);
   return (
-    <aside className="fixed inset-y-0 left-0 w-[240px] max-h-[1024px] dark:bg-primaryselectdark p-2 border-t-0 border-l-0 border-b-0 border-r border border-[#F1F5F9] dark:border-primarydark">
-      <div className="p-2 mb-4">
-        <div className="w-[64px] h-[32px] text-[#2563EB] text-[12px] border-[#2563EB] border-dashed border bg-[#93C5FD] font-semibold flex items-center justify-center">
-          Full Logo
+    <aside
+      className={`md:block fixed top-[64px] ${
+        asideOpen ? "left-[-100%]" : "left-0"
+      } md:left-0 md:top-0 bottom-0 transition-all duration-300 ease w-full z-10 ${
+        isAsideCollapsed ? "md:w-[64px]" : "md:w-[240px]"
+      }  dark:bg-primaryselectdark p-2 border-t-0 border-l-0 border-b-0 border-r-0 md:border-r border border-[#F1F5F9] dark:border-primarydark`}
+    >
+      <div className="hidden md:block p-2 mb-4">
+        <div
+          className={`${
+            isAsideCollapsed ? "w-[32px]" : "w-[64px]"
+          } h-[32px] transition-all duration-200 ease text-[#2563EB] text-[12px] border-[#2563EB] border-dashed border bg-[#93C5FD] font-semibold flex items-center justify-center`}
+        >
+          {isNavElCollapsed ? "L" : "Full Logo"}
         </div>
       </div>
-      <ul className="mb-2 py-2">
+      <ul className="mb-2 pt-2">
         {navElements.map((navElement, index) => {
           return (
             <NavElementComponent
@@ -114,12 +142,15 @@ const Aside = () => {
               link={navElement.link}
               isActive={navElement.isActive}
               key={index}
+              index={index}
               icon={navElement.icon}
+              isNavElCollapsed={isNavElCollapsed}
+              icon2={navElement.icon2}
             />
           );
         })}
       </ul>
-      <ul className="py-2">
+      <ul className="pb-2">
         {navElements2.map((navElement, index) => {
           return (
             <NavElementComponent
@@ -129,30 +160,62 @@ const Aside = () => {
               key={index}
               icon={navElement.icon}
               notification={navElement.notification}
+              isNavElCollapsed={isNavElCollapsed}
             />
           );
         })}
-        <li className="mx-2">
-          <button className="flex items-center gap-2 px-1">
-            <div className="h-4 w-6 p-[2px] rounded-full bg-[#E2E8F0] dark:bg-primary transition-all duration-300 ease-out">
-              <div className="relative w-3 h-3 rounded-full bg-[#FFF] transition-all duration-300 ease-out dark:translate-x-2"></div>
-            </div>
-            <span className="text-[#334155] dark:text-[#FFF] text-[12px]">
-              Dark Mode
-            </span>
+        <li className="hidden md:block mb-2">
+          <button
+            onClick={() => setIsAsideCollpased(!isAsideCollapsed)}
+            className={`flex items-center gap-4 p-2 w-full dark:text-select dark:rounded-sm transition-all duration-300 stroke-[#64748B] dark:stroke-[#FFF] text-[#334155] hover:stroke-primary hover:text-primary hover:bg-select hover:dark:stroke-[#FFF] hover:dark:bg-primary hover:dark:text-[#FFF] ${
+              isNavElCollapsed && "justify-center"
+            }`}
+          >
+            <DoubleChevronLeftIcon
+              className={`transition-all 300ms ease ${
+                isAsideCollapsed && "rotate-180"
+              }`}
+            />
+            {!isNavElCollapsed && <span className="text-sm">Collapse</span>}
           </button>
         </li>
+        {!isNavElCollapsed && (
+          <li className="mb-2">
+            <button
+              className={`flex items-center gap-2 px-1 h-4 w-full ${
+                isNavElCollapsed && "justify-center"
+              }`}
+            >
+              <div className="h-4 w-6 p-[2px] rounded-full bg-[#E2E8F0] dark:bg-primary transition-all duration-300 ease-out">
+                <div className="relative w-3 h-3 rounded-full bg-[#FFF] transition-all duration-300 ease-out dark:translate-x-2"></div>
+              </div>
+              {!isNavElCollapsed && (
+                <span className="text-[#334155] dark:text-[#FFF] text-[12px]">
+                  Dark Mode
+                </span>
+              )}
+            </button>
+          </li>
+        )}
+
         <li className="">
-          <a href="" className="flex items-center gap-2 p-2">
-            <img src={avatar} alt="" />
-            <div>
-              <p className="text-[#334155] dark:text-[#FFF] font-normal text-sm">
-                Rudra Devi
-              </p>
-              <p className="text-[#64748B] dark:text-[#FFF] font-normal text-sm">
-                rudra.devi@gmail.com
-              </p>
-            </div>
+          <a
+            href=""
+            className={`flex items-center gap-2 p-2 h-12 ${
+              isNavElCollapsed && "justify-center"
+            }`}
+          >
+            <img src={avatar} alt="" className="w-8 h-8" />
+            {!isNavElCollapsed && (
+              <div>
+                <p className="text-[#334155] dark:text-[#FFF] font-normal text-sm">
+                  Rudra Devi
+                </p>
+                <p className="text-[#64748B] dark:text-[#FFF] font-normal text-sm">
+                  rudra.devi@gmail.com
+                </p>
+              </div>
+            )}
           </a>
         </li>
       </ul>
