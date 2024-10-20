@@ -101,10 +101,25 @@ const NavElementComponent = ({
   );
 };
 
-const Aside = ({ isAsideCollapsed, setIsAsideCollpased }) => {
+const Aside = ({ isAsideCollapsed, setIsAsideCollapsed }) => {
   const asideOpen = useAside();
-  const toggleAside = useAsideToggle();
   const [isNavElCollapsed, setIsNavElCollapsed] = useState(false);
+
+  const handleResize = () => {
+    const currentWidth = window.innerWidth;
+    if (currentWidth < 768) {
+      setIsAsideCollapsed(false);
+    }
+  };
+
+  useEffect(() => {
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     if (!isAsideCollapsed) {
@@ -123,7 +138,7 @@ const Aside = ({ isAsideCollapsed, setIsAsideCollpased }) => {
         asideOpen ? "left-[-100%]" : "left-0"
       } md:left-0 md:top-0 bottom-0 transition-all duration-300 ease w-full z-10 ${
         isAsideCollapsed ? "md:w-[64px]" : "md:w-[240px]"
-      }  dark:bg-primaryselectdark p-2 border-t-0 border-l-0 border-b-0 border-r-0 md:border-r border border-[#F1F5F9] dark:border-primarydark`}
+      }  bg-[white] dark:bg-primaryselectdark p-2 border-t-0 border-l-0 border-b-0 border-r-0 md:border-r border border-[#F1F5F9] dark:border-primarydark`}
     >
       <div className="hidden md:block p-2 mb-4">
         <div
@@ -134,7 +149,7 @@ const Aside = ({ isAsideCollapsed, setIsAsideCollpased }) => {
           {isNavElCollapsed ? "L" : "Full Logo"}
         </div>
       </div>
-      <ul className="mb-2 pt-2">
+      <ul className="mx-2.5 md:mx-0 mb-2 pt-2">
         {navElements.map((navElement, index) => {
           return (
             <NavElementComponent
@@ -150,7 +165,7 @@ const Aside = ({ isAsideCollapsed, setIsAsideCollpased }) => {
           );
         })}
       </ul>
-      <ul className="pb-2">
+      <ul className="mx-2.5 md:mx-0 pb-2">
         {navElements2.map((navElement, index) => {
           return (
             <NavElementComponent
@@ -166,7 +181,7 @@ const Aside = ({ isAsideCollapsed, setIsAsideCollpased }) => {
         })}
         <li className="hidden md:block mb-2">
           <button
-            onClick={() => setIsAsideCollpased(!isAsideCollapsed)}
+            onClick={() => setIsAsideCollapsed(!isAsideCollapsed)}
             className={`flex items-center gap-4 p-2 w-full dark:text-select dark:rounded-sm transition-all duration-300 stroke-[#64748B] dark:stroke-[#FFF] text-[#334155] hover:stroke-primary hover:text-primary hover:bg-select hover:dark:stroke-[#FFF] hover:dark:bg-primary hover:dark:text-[#FFF] ${
               isNavElCollapsed && "justify-center"
             }`}

@@ -11,7 +11,7 @@ export const useAsideToggle = () => {
 };
 
 export const AsideProvider = ({ children }) => {
-  const [isAsideOpen, setIsAsideOpen] = useState(false);
+  const [isAsideOpen, setIsAsideOpen] = useState(true);
   const toggleAside = () => {
     setIsAsideOpen((prev) => !prev);
   };
