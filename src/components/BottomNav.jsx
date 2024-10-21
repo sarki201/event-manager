@@ -1,5 +1,4 @@
 import React from "react";
-import MaxWidthWrapper from "./utilities/MaxWidthWrapper";
 import {
   CalenderIcon,
   HomeIcon,
@@ -37,7 +36,7 @@ const navElements = [
     name: "Profile",
     link: "/",
     isActive: false,
-    icon: <UserCircleIcon />,
+    icon: <UserCircleIcon className="stroke-[#64748B] dark:stroke-[white]" />,
   },
 ];
 
@@ -47,7 +46,9 @@ const NavElementComponent = ({ name, link, isActive, icon }) => {
       <a
         href={link}
         className={`${
-          isActive ? "stroke-[#64748B]" : "stroke-primarydark"
+          isActive
+            ? "stroke-[#64748B] dark:stroke-primary"
+            : "stroke-primarydark dark:stroke-[white]"
         } h-full flex flex-col gap-2 items-center justify-between`}
       >
         <div
@@ -70,7 +71,7 @@ const NavElementComponent = ({ name, link, isActive, icon }) => {
 
 const BottomNav = () => {
   return (
-    <div className="fixed bottom-0 inset-x-0 md:hidden z-[2] border-t border-r-0 border-l-0 border-b-0 bg-[white] border-[#F3F4F6] h-16 px-5">
+    <div className="fixed bottom-0 inset-x-0 md:hidden z-[2] border-t border-r-0 border-l-0 border-b-0 bg-[white] dark:bg-[#383544] border-[#F3F4F6] dark:border-primaryselect h-16 px-5">
       <ul className="flex justify-between gap-2 h-full">
         {navElements.map((navElement, index) => {
           return (

@@ -37,19 +37,19 @@ const HomePage = ({ isAsideCollapsed, setIsAsideCollapsed }) => {
     <main
       className={`${
         isAsideCollapsed ? "md:ml-[64px]" : "md:ml-[240px]"
-      } px-5 md:pl-7 md:pr-24 mb-16 md:mb-0 pt-2 md:pt-10 transition-all duration-300`}
+      } mb-16 md:mb-0 pt-2 pb-10 md:pt-10 transition-all duration-300`}
     >
-      <section className="mb-[34px]">
+      <section className="mb-[34px] px-5 lg:px-0">
         <MaxWidthWrapper>
           <h2 className="text-[black] font-normal text-[17px] md:text-[22px] lg:leading-5 dark:text-[#FFF] mb-6">
             Welcome! here's your summary
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-3">
             {welcomeElements.map((welcomeElement, index) => {
               return (
                 <div
                   key={index}
-                  className="p-4 border border-solid border-[#F2F2F7] dark:border-primaryselectdark dark:bg-primaryselectdark rounded-[2px]"
+                  className="p-4 border border-solid border-[#F2F2F7] dark:border-primarydark dark:bg-primarydark rounded-[2px]"
                 >
                   <div className="flex items-center gap-1">
                     <h3 className="text-base text-[#64748B] dark:text-[#FFF] leading-6 font-semibold">
@@ -84,7 +84,7 @@ const HomePage = ({ isAsideCollapsed, setIsAsideCollapsed }) => {
           </div>
         </MaxWidthWrapper>
       </section>
-      <section className="mb-7">
+      <section className="mb-7 px-5 lg:px-0">
         <MaxWidthWrapper>
           <h3 className="text-[18px] leading-3 font-medium mb-[14px] dark:text-[white]">
             Event Registrations per month

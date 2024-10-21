@@ -80,12 +80,12 @@ const NavElementComponent = ({
     <li className={navElements.length - index !== 1 ? "mb-2" : undefined}>
       <a
         href={link}
-        className={`flex items-center relative gap-4 p-2 dark:text-select dark:rounded-sm stroke-primaryselect h-9 ${
+        className={`flex items-center relative gap-4 p-2 dark:text-select dark:rounded-sm h-9 ${
           isNavElCollapsed && "justify-center"
         } ${
           isActive
             ? "text-primary bg-select dark:bg-primary dark:stroke-select stroke-primary"
-            : "text-[#334155] stroke-primaryselect hover:stroke-primary hover:text-primary hover:bg-select hover:dark:stroke-[#FFF] hover:dark:bg-primary hover:dark:text-[#FFF]"
+            : "text-[#334155] stroke-primaryselect hover:bg-select hover:dark:stroke-[#FFF] hover:dark:bg-primary hover:dark:text-[#FFF]"
         }    `}
       >
         {icon2 && isNavElCollapsed ? icon2 : icon}
@@ -96,12 +96,15 @@ const NavElementComponent = ({
             {notification}
           </div>
         )}
+        {notification && isNavElCollapsed && (
+          <div className=" absolute w-1.5 h-1.5 rounded-full bg-[#F43F5E] top-2 right-3"></div>
+        )}
       </a>
     </li>
   );
 };
 
-const Aside = ({ isAsideCollapsed, setIsAsideCollapsed }) => {
+const Aside = ({ isAsideCollapsed, setIsAsideCollapsed, handleDarkToggle }) => {
   const asideOpen = useAside();
   const [isNavElCollapsed, setIsNavElCollapsed] = useState(false);
 
@@ -115,7 +118,6 @@ const Aside = ({ isAsideCollapsed, setIsAsideCollapsed }) => {
   useEffect(() => {
     handleResize();
     window.addEventListener("resize", handleResize);
-
     return () => {
       window.removeEventListener("resize", handleResize);
     };
@@ -138,7 +140,7 @@ const Aside = ({ isAsideCollapsed, setIsAsideCollapsed }) => {
         asideOpen ? "left-[-100%]" : "left-0"
       } md:left-0 md:top-0 bottom-0 transition-all duration-300 ease w-full z-10 ${
         isAsideCollapsed ? "md:w-[64px]" : "md:w-[240px]"
-      }  bg-[white] dark:bg-primaryselectdark p-2 border-t-0 border-l-0 border-b-0 border-r-0 md:border-r border border-[#F1F5F9] dark:border-primarydark`}
+      }  bg-[white] dark:bg-primarydark p-2 border-t-0 border-l-0 border-b-0 border-r-0 md:border-r border border-[#F1F5F9] dark:border-primarydark`}
     >
       <div className="hidden md:block p-2 mb-4">
         <div
@@ -197,6 +199,7 @@ const Aside = ({ isAsideCollapsed, setIsAsideCollapsed }) => {
         {!isNavElCollapsed && (
           <li className="mb-2">
             <button
+              onClick={handleDarkToggle}
               className={`flex items-center gap-2 px-1 h-4 w-full ${
                 isNavElCollapsed && "justify-center"
               }`}
