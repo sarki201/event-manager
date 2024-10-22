@@ -86,7 +86,8 @@ const Chart = () => {
               </div>
               <div className="flex flex-col-reverse w-[15.9px] lg:w-[25.66px] flex-1">
                 <div
-                  className={`bg-primary rounded-[1px] h-[${month.percentage}%]`}
+                  style={{ height: `${month.percentage}%` }}
+                  className={`bg-primary rounded-[1px]`}
                 ></div>
               </div>
             </div>
