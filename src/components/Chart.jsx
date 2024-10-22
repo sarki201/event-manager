@@ -55,7 +55,7 @@ const Chart = () => {
   return (
     <article className="p-2 lg:p-10 min-h-[300px] border border-solid border-gray6 dark:border-primarydark dark:bg-primarydark rounded-[2px] lg:rounded-[5px]">
       <div className="h-full flex justify-between gap-1 relative z-[1]">
-        <div className="h-full flex flex-col-reverse justify-between pb-5">
+        <div className="h-full flex flex-col-reverse justify-between pb-4 pt-1">
           <div className="text-[#64748B] text-end text-[10px] font-normal dark:text-[white]">
             0
           </div>
@@ -95,12 +95,30 @@ const Chart = () => {
         })}
         <div className="absolute left-7 right-0 bottom-[22px] top-3 z-[-1]">
           <div className="relative w-full h-full">
-            <div className="absolute border border-dashed border-gray6 border-r-0 border-l-0 border-b-0 w-full  bottom-[0%]"></div>
-            <div className="absolute border border-dashed border-gray6 border-r-0 border-l-0 border-b-0 w-full  bottom-[20%]"></div>
-            <div className="absolute border border-dashed border-gray6 border-r-0 border-l-0 border-b-0 w-full  bottom-[40%]"></div>
-            <div className="absolute border border-dashed border-gray6 border-r-0 border-l-0 border-b-0 w-full  bottom-[60%]"></div>
-            <div className="absolute border border-dashed border-gray6 border-r-0 border-l-0 border-b-0 w-full  bottom-[80%]"></div>
-            <div className="absolute border border-dashed border-gray6 border-r-0 border-l-0 border-b-0 w-full  bottom-[100%]"></div>
+            <div
+              style={{ bottom: "0%" }}
+              className="absolute border border-dashed border-[gray] border-r-0 border-l-0 border-b-0 w-full"
+            ></div>
+            <div
+              style={{ bottom: "20%" }}
+              className="absolute border border-dashed border-[gray] border-r-0 border-l-0 border-b-0 w-full"
+            ></div>
+            <div
+              style={{ bottom: "40%" }}
+              className="absolute border border-dashed border-[gray] border-r-0 border-l-0 border-b-0 w-full"
+            ></div>
+            <div
+              style={{ bottom: "60%" }}
+              className="absolute border border-dashed border-[gray] border-r-0 border-l-0 border-b-0 w-full"
+            ></div>
+            <div
+              style={{ bottom: "80%" }}
+              className="absolute border border-dashed border-[gray] border-r-0 border-l-0 border-b-0 w-full"
+            ></div>
+            <div
+              style={{ bottom: "100%" }}
+              className="absolute border border-dashed border-[gray] border-r-0 border-l-0 border-b-0 w-full"
+            ></div>
           </div>
         </div>
       </div>

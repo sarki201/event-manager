@@ -73,31 +73,33 @@ const tableData = [
 
 const Modal = ({ eventName, date, setModal, speaker }) => {
   return (
-    <div className="w-[335px] md:w-[440px] fixed top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] z-[101] bg-[white]">
+    <div className="w-[335px] md:w-[440px] fixed top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] z-[101] bg-[white] dark:bg-primarydark shadow()">
       <div className="pt-6 px-6 flex items-start justify-between">
         <div>
-          <h3 className="text-[#334155] text-[18px] leading-7 font-semibold">
+          <h3 className="text-[#334155] dark:text-[white] text-[18px] leading-7 font-semibold">
             {eventName}
           </h3>
-          <h4 className="text-[#64748B] text-[14px] leading-5">{date}</h4>
+          <h4 className="text-[#64748B] dark:text-[white] text-[14px] leading-5">
+            {date}
+          </h4>
         </div>
         <button onClick={() => setModal(false)}>
           <CloseBtnIcon />
         </button>
       </div>
-      <p className="p-6 text-[#334155] text-[14px] leading-5">
+      <p className="p-6 text-[#334155] dark:text-[white] text-[14px] leading-5">
         Event Description
       </p>
       <div className="p-6">
         <img className="w-20 h-8 mb-4" src="/avatar-group.png" alt="" />
-        <p className="text-[#334155] text-[14px] leading-5">
+        <p className="text-[#334155] dark:text-[white] text-[14px] leading-5">
           3 Guest Speakers: {speaker}, Speaker name B, Speaker name C. 300
           Attendees
         </p>
         <p className="text-[#334155] text-[14px] leading-5">300 Attendees</p>
       </div>
-      <div className="p-6 bg-[#F8FAFC] flex items-center flex-wrap md:flex-nowrap gap-2">
-        <button className="w-full md:w-auto rounded-[2px] border-[#E2E8F0] border-solid border text-[#334155] text-[14px] leading-5 px-4 mr-auto flex items-center justify-center md:justify-start h-9">
+      <div className="p-6 bg-[#F8FAFC] dark:bg-primaryselect flex items-center flex-wrap md:flex-nowrap gap-2">
+        <button className="w-full md:w-auto rounded-[2px] border-[#E2E8F0] border-solid border dark:bg-[white] text-[#334155] text-[14px] leading-5 px-4 mr-auto flex items-center justify-center md:justify-start h-9">
           Edit
         </button>
         <button className="w-full md:w-auto rounded-[2px] bg-[#F43F5E] text-[white] text-[14px] leading-5 px-4 flex items-center justify-center md:justify-start h-9">
@@ -118,7 +120,7 @@ const TableRow = ({ eventName, date, speaker, status }) => {
   return (
     <>
       <div
-        className={`py-2.5 lg:py-3 w-full grid grid-cols-[1fr,99px] lg:grid-cols-4 ${
+        className={`py-2.5 lg:py-3 w-full grid grid-cols-[1fr,99px] lg:grid-cols-4 relative ${
           showDetails ? "bg-gray6 dark:bg-[#514E5D]" : "dark:bg-primarydark"
         }`}
       >
@@ -140,7 +142,6 @@ const TableRow = ({ eventName, date, speaker, status }) => {
         </div>
         <div className="flex items-center lg:px-4">
           <div
-            onClick={() => setModal(true)}
             className={`h-5 lg:h-6 ${
               status === "Completed"
                 ? "bg-[#10B981] lg:bg-[#D1FAE5] lg:dark:border-[#10B981]"
@@ -163,6 +164,10 @@ const TableRow = ({ eventName, date, speaker, status }) => {
             </span>
           </div>
         </div>
+        <div
+          onClick={() => setModal(true)}
+          className="absolute left-14 lg:left-0 right-0 inset-y-0"
+        ></div>
         {modal && (
           <Modal
             eventName={eventName}
@@ -251,7 +256,7 @@ const Table = () => {
         </div>
         <div className="mb-4">
           <div className="h-12 bg-[#F1F5F9] dark:bg-primaryselectdark w-full grid grid-cols-[1fr,99px] lg:grid-cols-4">
-            <div className="text-[12px] leading-4 text-[#64748B] dark:text-[white] font-semibold flex items-center px-4">
+            <div className="text-[12px] leading-4 text-[#64748B] dark:text-[white] font-semibold flex items-center px-5">
               Event Name
             </div>
             <div className="text-[12px] leading-4 text-[#64748B] dark:text-[white] font-semibold hidden lg:flex items-center px-4">

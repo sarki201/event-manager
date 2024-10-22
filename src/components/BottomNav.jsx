@@ -71,7 +71,7 @@ const NavElementComponent = ({ name, link, isActive, icon }) => {
 
 const BottomNav = () => {
   return (
-    <div className="fixed bottom-0 inset-x-0 md:hidden z-[2] border-t border-r-0 border-l-0 border-b-0 bg-[white] dark:bg-[#383544] border-[#F3F4F6] dark:border-primaryselect h-16 px-5">
+    <div className="fixed bottom-0 inset-x-0 md:hidden z-[2] border-t border-r-0 border-l-0 border-b-0 bg-[white] dark:bg-[#383544] border-[#F3F4F6] dark:border-[#E2E8F022] h-16 px-5">
       <ul className="flex justify-between gap-2 h-full">
         {navElements.map((navElement, index) => {
           return (

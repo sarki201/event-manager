@@ -6,37 +6,32 @@ import { AsideProvider } from "./components/AsideContext";
 import BottomNav from "./components/BottomNav";
 
 const App = () => {
-  const [appTheme, setAppTheme] = useState(null);
   const [isAsideCollapsed, setIsAsideCollapsed] = useState(false);
+  const [appTheme, setAppTheme] = useState(null);
 
   const handleDarkToggle = () => {
-    if (appTheme === "dark") {
-      document.querySelector("html").classList.add("dark");
-      setAppTheme("light");
-    } else {
-      document.querySelector("html").classList.remove("dark");
-      setAppTheme("dark");
-    }
-    localStorage.setItem("theme", appTheme);
+    const newTheme = appTheme === "dark" ? "light" : "dark";
+    document
+      .querySelector("html")
+      .classList.toggle("dark", newTheme === "dark");
+    setAppTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
   };
 
   useEffect(() => {
     const theme = localStorage.getItem("theme");
-    setAppTheme(theme);
-    if (!theme) {
-      if (window.matchMedia("prefers-color-scheme: dark").matches) {
-        document.querySelector("html").classList.add("dark");
-        localStorage.setItem("theme", "dark");
-      } else {
-        document.querySelector("html").classList.remove("dark");
-        localStorage.setItem("theme", "light");
-      }
+
+    if (theme) {
+      setAppTheme(theme);
+      document.querySelector("html").classList.toggle("dark", theme === "dark");
     } else {
-      if (theme === "dark") {
-        document.querySelector("html").classList.add("dark");
-      } else {
-        document.querySelector("html").classList.remove("dark");
-      }
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
+      const defaultTheme = prefersDark ? "dark" : "light";
+      document.querySelector("html").classList.toggle("dark", prefersDark);
+      setAppTheme(defaultTheme);
+      localStorage.setItem("theme", defaultTheme);
     }
   }, []);
 
